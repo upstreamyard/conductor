@@ -224,7 +224,7 @@ jobs:
 
       - name: Sync Docker Hub description
         if: env.PUBLISH == 'true' && env.DOCKERHUB_ENABLED == 'true' && github.ref == 'refs/heads/main'
-        uses: peter-evans/dockerhub-description@v4
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
