@@ -63,7 +63,10 @@ greeting=$(echo "$wf" | jq -r .output.greeting)
 echo "workflow COMPLETED with output: $greeting"
 
 echo "--- checking the UI and its /api proxy on port 5000"
-curl -sf "$UI/" | grep -qi '<html' || { echo "UI did not return HTML"; exit 1; }
+# Read the whole page first: piping curl into "grep -q" can fail randomly under pipefail,
+# because grep exits at the first match and curl then gets a broken pipe.
+page=$(curl -sf "$UI/") || { echo "UI request failed"; exit 1; }
+grep -qi '<html' <<<"$page" || { echo "UI did not return HTML"; exit 1; }
 curl -sf "$UI/api/metadata/workflow/smoke_test" | jq -e '.name == "smoke_test"' >/dev/null \
   || { echo "UI /api proxy failed"; exit 1; }
 echo "UI and /api proxy OK"
@@ -71,7 +74,7 @@ echo "UI and /api proxy OK"
 echo "--- checking that a missing CONFIG_PROP file stops the container"
 rc=0
 out=$(timeout 60 docker run --rm -e CONFIG_PROP=missing.properties "$IMAGE" 2>&1) || rc=$?
-if [ "$rc" -ne 1 ] || ! echo "$out" | grep -q "does not exist"; then
+if [ "$rc" -ne 1 ] || ! grep -q "does not exist" <<<"$out"; then
   echo "expected exit code 1 with an error message, got $rc: $out"; exit 1
 fi
 echo "missing config file rejected"
