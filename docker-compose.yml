@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: conductor
+      POSTGRES_PASSWORD: conductor
+      POSTGRES_DB: conductor
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U conductor -d conductor"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  conductor:
+    image: ${CONDUCTOR_IMAGE:-upstreamyard/conductor:latest}
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # API, Swagger UI
+      - "5000:5000"   # UI
+    environment:
+      # Persistence, queues and search index all in PostgreSQL.
+      CONDUCTOR_DB_TYPE: postgres
+      CONDUCTOR_QUEUE_TYPE: postgres
+      CONDUCTOR_INDEXING_ENABLED: "true"
+      CONDUCTOR_INDEXING_TYPE: postgres
+      CONDUCTOR_ELASTICSEARCH_VERSION: "0"
+      CONDUCTOR_EXTERNAL_PAYLOAD_STORAGE_TYPE: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/conductor
+      SPRING_DATASOURCE_USERNAME: conductor
+      SPRING_DATASOURCE_PASSWORD: conductor
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

@@ -1,0 +1,25 @@
+# upstreamyard/conductor
+
+> Multi-arch (amd64, arm64), cosign-signed container image for Conductor OSS, the open-source workflow orchestration engine originally built at Netflix, with server and UI in one image. Community-maintained by upstreamyard; not an official Conductor image. Pull `upstreamyard/conductor:<version>` or `ghcr.io/upstreamyard/conductor:<version>`. API on port 8080, UI on port 5000. Runs without dependencies on SQLite; for production use PostgreSQL.
+
+Key facts: health `GET /health` (process only), metrics `GET /actuator/prometheus`, Swagger at `/swagger-ui/index.html`, non-root UID 10001, only stable releases (no `-rc` tags). Configure with Spring env vars (`CONDUCTOR_DB_TYPE=postgres`, `SPRING_DATASOURCE_URL=jdbc:postgresql://...`) or a properties file in `/app/config` selected by `CONFIG_PROP`; the file overrides env vars, and a missing file stops the container with an error. No authentication. Run a single replica (default lock is `local_only`).
+
+## Docs
+
+- [README](https://raw.githubusercontent.com/upstreamyard/conductor/main/README.md): quick start, configuration, Kubernetes notes, image verification
+- [AGENTS.md](https://raw.githubusercontent.com/upstreamyard/conductor/main/AGENTS.md): image facts table, deployment rules, repository conventions
+
+## Examples
+
+- [docker-compose.yml](https://raw.githubusercontent.com/upstreamyard/conductor/main/docker-compose.yml): Conductor and PostgreSQL in a single Compose file
+
+## Upstream
+
+- [Conductor repository](https://github.com/conductor-oss/conductor): source, issues, releases, SDKs
+- [Default properties](https://raw.githubusercontent.com/conductor-oss/conductor/main/server/src/main/resources/application.properties): all server settings and their defaults
+
+## Optional
+
+- [Build workflow](https://raw.githubusercontent.com/upstreamyard/conductor/main/.github/workflows/build.yml): how images are built, tested, signed and published
+- [Dockerfile](https://raw.githubusercontent.com/upstreamyard/conductor/main/Dockerfile)
+- [Smoke test](https://raw.githubusercontent.com/upstreamyard/conductor/main/scripts/smoke-test.sh)
