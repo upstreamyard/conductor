@@ -13,7 +13,7 @@ Key facts: health `GET /health` (process only), metrics `GET /actuator/prometheu
 
 - [docker-compose.yml](https://raw.githubusercontent.com/upstreamyard/conductor/main/docker-compose.yml): Conductor and PostgreSQL in a single Compose file
 
-## Upstream
+## Conductor project
 
 - [Conductor repository](https://github.com/conductor-oss/conductor): source, issues, releases, SDKs
 - [Default properties](https://raw.githubusercontent.com/conductor-oss/conductor/main/server/src/main/resources/application.properties): all server settings and their defaults

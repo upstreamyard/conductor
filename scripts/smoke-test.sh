@@ -20,7 +20,7 @@ trap cleanup EXIT
 
 docker network create "$NET" >/dev/null
 
-# Same database settings as upstream's config-postgres.properties (host postgresdb, user/password conductor).
+# Same database settings as config-postgres.properties from the Conductor project (host postgresdb, user/password conductor).
 docker run -d --name conductor-smoke-pg --network "$NET" --network-alias postgresdb \
   -e POSTGRES_USER=conductor -e POSTGRES_PASSWORD=conductor -e POSTGRES_DB=postgres \
   "$PG_IMAGE" >/dev/null
