@@ -1,0 +1,7 @@
+.git
+.github
+upstream/.git
+upstream/**/node_modules
+upstream/**/build
+upstream/**/dist
+upstream/.gradle
