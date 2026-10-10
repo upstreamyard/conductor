@@ -5,12 +5,12 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    # Daily: pick up new upstream releases automatically.
+    # Daily: pick up new Conductor releases automatically.
     - cron: "37 4 * * *"
   workflow_dispatch:
     inputs:
       version:
-        description: "Upstream version to build (e.g. 3.32.5). Empty = latest stable release."
+        description: "Conductor version to build (e.g. 3.32.5). Empty = latest stable release."
         required: false
         default: ""
       force:
@@ -48,7 +48,7 @@ jobs:
           GHCR_IMAGE: ghcr.io/${{ github.repository_owner }}/conductor
         run: |
           set -euo pipefail
-          # Upstream does not flag every release candidate as a prerelease, so pick the
+          # The Conductor project does not flag every release candidate as a prerelease, so pick the
           # highest plain vX.Y.Z release tag instead of trusting "latest release".
           latest=$(gh api --paginate "repos/$UPSTREAM_REPO/releases?per_page=100" \
             --jq '.[] | select(.draft | not) | .tag_name' \
@@ -70,7 +70,7 @@ jobs:
             fi
           fi
           echo "build=$build" >> "$GITHUB_OUTPUT"
-          echo "Upstream latest stable: $latest | building: $version | build: $build"
+          echo "Latest stable Conductor release: $latest | building: $version | build: $build"
 
   # Smoke test every architecture natively before anything is published.
   smoke:
@@ -90,7 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check out upstream v${{ env.VERSION }}
+      - name: Check out Conductor v${{ env.VERSION }}
         uses: actions/checkout@v4
         with:
           repository: ${{ env.UPSTREAM_REPO }}
@@ -129,7 +129,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check out upstream v${{ env.VERSION }}
+      - name: Check out Conductor v${{ env.VERSION }}
         uses: actions/checkout@v4
         with:
           repository: ${{ env.UPSTREAM_REPO }}

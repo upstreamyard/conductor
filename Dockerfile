@@ -1,8 +1,8 @@
 # Container image for Conductor OSS (https://github.com/conductor-oss/conductor)
-# Maintained by upstreamyard. Builds the upstream source checked out into ./upstream
+# Maintained by upstreamyard. Builds the Conductor source code, checked out into ./upstream
 # at the release tag selected by CI.
 #
-# Same layout as upstream's image (docker/server/Dockerfile): Conductor server on 8080,
+# Same layout as the Conductor project's own image (docker/server/Dockerfile): Conductor server on 8080,
 # UI served by nginx on 5000 (proxying /api to the server), config via CONFIG_PROP.
 # Packaging changes: non-root user, tini as PID 1, pinned base images.
 
@@ -12,13 +12,13 @@
 FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk-noble@sha256:b468c3fc688b14450571494f588bd939378e7fd542ed5a73f8efc13f17872a87 AS builder
 
 ARG CONDUCTOR_VERSION=0.0.0
-# Indexing backend compiled into the jar; upstream's default is elasticsearch (Elasticsearch 7).
+# Indexing backend compiled into the jar; the Conductor project's default is elasticsearch (Elasticsearch 7).
 ARG INDEXING_BACKEND=elasticsearch
 
 WORKDIR /conductor
 COPY upstream/ ./
 
-# Same Gradle invocation as upstream's release workflow (publish.yml).
+# Same Gradle invocation as the Conductor project's release workflow (publish.yml).
 RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew :conductor-server:build -x test -x spotlessCheck -x shadowJar \
       -x :conductor-os-persistence-v3:build \
@@ -55,7 +55,7 @@ RUN apt-get update \
     && groupadd --system --gid 10001 conductor \
     && useradd --system --uid 10001 --gid 10001 --home-dir /app --no-create-home conductor \
     && mkdir -p /app/config /app/logs /app/libs \
-    # The default SQLite database (c123.db) is written to /app/libs, as in upstream's image.
+    # The default SQLite database (c123.db) is written to /app/libs, as in the Conductor project's own image.
     && chown 10001:10001 /app/libs /app/logs
 
 COPY --chmod=0755 startup.sh /app/startup.sh

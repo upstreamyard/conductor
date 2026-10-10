@@ -1,9 +1,9 @@
 #!/bin/sh
-# Startup script for the upstreamyard Conductor image, based on upstream's
+# Startup script for the upstreamyard Conductor image, based on the Conductor project's
 # docker/server/bin/startup.sh: nginx serves the UI on 5000 in the background,
 # the Conductor server runs on 8080.
 # Differences: java is exec'd (stop signals reach it via tini), logs go to stdout only,
-# and a missing CONFIG_PROP file is an error (upstream silently falls back to SQLite).
+# and a missing CONFIG_PROP file is an error (the Conductor project's script silently falls back to SQLite).
 set -e
 
 if [ -n "$CONFIG_PROP" ] && [ ! -r "/app/config/$CONFIG_PROP" ]; then
