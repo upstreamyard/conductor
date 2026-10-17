@@ -1,3 +1,5 @@
+<img src="https://upstreamyard.github.io/helm-charts/logo.png" alt="upstreamyard logo" width="120" align="right">
+
 # Conductor container image
 
 Multi-arch (`amd64`, `arm64`), signed container images for [Conductor OSS](https://github.com/conductor-oss/conductor), the open-source workflow orchestration engine originally built at Netflix. Server and UI in one image.
