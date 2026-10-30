@@ -2,6 +2,8 @@
 
 # Conductor container image
 
+> **Support:** For help with setup, production issues or custom changes, email [upstreamyard@proton.me](mailto:upstreamyard@proton.me).
+
 Multi-arch (`amd64`, `arm64`), signed container images for [Conductor OSS](https://github.com/conductor-oss/conductor), the open-source workflow orchestration engine originally built at Netflix. Server and UI in one image.
 
 > Community-maintained by **upstreamyard**. This is not an official Conductor image. Conductor is © its authors and licensed under Apache-2.0 (license text in `/licenses/conductor/LICENSE` inside the image).
