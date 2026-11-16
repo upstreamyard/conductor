@@ -9,7 +9,7 @@
 # -----------------------------
 # Server jar (architecture-independent, built on the build host)
 # -----------------------------
-FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk-noble@sha256:b468c3fc688b14450571494f588bd939378e7fd542ed5a73f8efc13f17872a87 AS builder
+FROM --platform=$BUILDPLATFORM eclipse-temurin:24-jdk-noble@sha256:dacac8e9a0df0d2bd24e702b4431132875c249930b70555ebd7ca285b5bee684 AS builder
 
 ARG CONDUCTOR_VERSION=0.0.0
 # Indexing backend compiled into the jar; the Conductor project's default is elasticsearch (Elasticsearch 7).
@@ -44,7 +44,7 @@ RUN corepack enable && \
 # -----------------------------
 # Runtime
 # -----------------------------
-FROM eclipse-temurin:21-jre-noble@sha256:000fd431958bc81a24abe1e8e5f0f0fd3ae365a594bd50aadb20696805f9408c
+FROM eclipse-temurin:24-jre-noble@sha256:b416d02335e702b0403ff280de9475a3348e29382285969c9d4e17862ce632e7
 
 ARG CONDUCTOR_VERSION=unknown
 
