@@ -30,7 +30,7 @@ RUN --mount=type=cache,target=/root/.gradle \
 # -----------------------------
 # UI (architecture-independent, built on the build host)
 # -----------------------------
-FROM --platform=$BUILDPLATFORM node:24-bookworm-slim@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20 AS ui-builder
+FROM --platform=$BUILDPLATFORM node:26-bookworm-slim@sha256:5df79989ed685e09f0a98019db4cebfb22fb9df1a53c0161664a011f7ff6b0f1 AS ui-builder
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
